@@ -5,6 +5,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -17,8 +18,50 @@ const SignUp = () => {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [pic, setPic] = useState();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  const postDetails = (pic) => {
+    console.log(pic, "ooooooooo");
+    setLoading(true);
 
-  const postDetails = (pics) => {};
+    if (pic === undefined) {
+      toast({
+        title: "Please Select an image",
+        status: "warning",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (pic.type === "image/png" || pic.type === "image/jpeg") {
+      const data = new FormData();
+      data.append("file", pic);
+      data.append("upload_preset", "chatty");
+      data.append("cloud_name", "dhfc9g4l0");
+      console.log("hiiiiiii", pic);
+      fetch("https://api.cloudinary.com/v1_1/dhfc9g4l0/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setPic(data.secure_url.toString());
+          setLoading(false);
+        });
+    } else {
+      toast({
+        title: "Please Select an valid image",
+        status: "warning",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+    }
+  };
   const submitHandler = () => {};
 
   return (
@@ -83,6 +126,7 @@ const SignUp = () => {
         width="100%"
         style={{ marginTop: "15px" }}
         onClick={submitHandler}
+        isLoading={loading}
       >
         Sign Up
       </Button>
