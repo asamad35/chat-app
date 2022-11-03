@@ -38,7 +38,6 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  console.log(password, "password", await user.isPasswordValid(password));
 
   if (!user) {
     throw new Error("User not registered");
@@ -48,5 +47,18 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     throw new Error("Password doesn't match");
   }
 
-  res.status(200).json({ user });
+  res.status(200).json({ user, token: user.generateToken() });
+});
+
+exports.allUsers = asyncHandler(async (req, res, next) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.json(users);
 });

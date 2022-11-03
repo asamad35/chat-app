@@ -17,16 +17,15 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.pre("save", async function () {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
 userSchema.methods.isPasswordValid = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-userSchema.methods.generateToken = () => {
+userSchema.methods.generateToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
