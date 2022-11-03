@@ -1,20 +1,20 @@
 const asyncHandler = require("express-async-handler");
-const utils = require("../utils");
 const User = require("../models/userModel");
 
 exports.registerUser = asyncHandler(async (req, res, next) => {
   const { name, email, password, pic } = req.body;
 
+  console.log(!email || !name || !password, name, email, password, req.body);
   if (!email || !name || !password) {
     res.status(400);
-    throw new Error("Please enter all the fields");
+    throw new Error("Please enter all the fieldsssss");
   }
 
   const userExist = await User.findOne({ email });
 
   if (userExist) {
     res.status(400);
-    new Error("User nalready exist");
+    new Error("User already exist");
   }
 
   const user = await User.create({ name, email, password, pic });
@@ -25,7 +25,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
       name: user.name,
       email: user.email,
       pic: user.pic,
-      token: utils.generateToken(user._id),
+      token: user.generateToken(),
       user,
     });
   } else {
@@ -38,14 +38,15 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
+  console.log(password, "password", await user.isPasswordValid(password));
 
   if (!user) {
     throw new Error("User not registered");
   }
 
-  if (!(await utils.isPasswordValid(password, user.password))) {
+  if (!(await user.isPasswordValid(password))) {
     throw new Error("Password doesn't match");
   }
 
-  res.status(400).json({ user });
+  res.status(200).json({ user });
 });

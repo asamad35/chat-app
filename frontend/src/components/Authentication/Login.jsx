@@ -5,29 +5,76 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
+  const navigate = useNavigate();
+  const toast = useToast();
+
   const [show, setShow] = useState(false);
 
-  const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [loading, setLoading] = useState(false);
 
-  const submitHandler = () => {};
+  const submitHandler = async () => {
+    setLoading(true);
+    if (!email || !password) {
+      toast({
+        title: "Please fill all the fields",
+        status: "warning",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+      return;
+    }
+    try {
+      // const config = {
+      //   headers: {
+      //     "Content-type": "application/json",
+      //   },
+      // };
+      const { data } = await axios.post(
+        "/api/user/login",
+        {
+          email,
+          password,
+        }
+        // config
+      );
+      console.log(data);
+      toast({
+        title: "Registration Successful",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setLoading(false);
+      navigate("/chats");
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: error.response.data.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+    }
+  };
 
   return (
     <VStack>
-      <FormControl id="first-name" isRequired>
-        <FormLabel>Name</FormLabel>
-        <Input
-          value={name}
-          placeholder="Enter your name"
-          onChange={(e) => setName(e.target.value)}
-        />
-      </FormControl>
-
       <FormControl id="Email" isRequired>
         <FormLabel>Email</FormLabel>
         <Input
@@ -56,6 +103,7 @@ const Login = () => {
       </FormControl>
 
       <Button
+        isLoading={loading}
         colorScheme={"blue"}
         width="100%"
         style={{ marginTop: "15px" }}
@@ -69,9 +117,8 @@ const Login = () => {
         width="100%"
         style={{ marginTop: "15px" }}
         onClick={() => {
-          setName("Test User");
-          setEmail("testuser@gmail.com");
-          setPassword("12345678");
+          setEmail("abdus@gmail.com");
+          setPassword("123456");
         }}
       >
         Login as Guest User
