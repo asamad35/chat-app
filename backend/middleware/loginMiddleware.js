@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 
 exports.isLoggedIn = asyncHandler(async (req, res, next) => {
   let token;
-
+  console.log(req.header("Authorization"), "oooooooooo");
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
