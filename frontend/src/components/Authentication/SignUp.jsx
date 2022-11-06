@@ -26,7 +26,6 @@ const SignUp = () => {
   const toast = useToast();
 
   const postDetails = (pic) => {
-    console.log(pic, "ooooooooo");
     setLoading(true);
 
     if (pic === undefined) {

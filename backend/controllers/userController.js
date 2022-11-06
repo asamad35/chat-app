@@ -4,7 +4,6 @@ const User = require("../models/userModel");
 exports.registerUser = asyncHandler(async (req, res, next) => {
   const { name, email, password, pic } = req.body;
 
-  console.log(!email || !name || !password, name, email, password, req.body);
   if (!email || !name || !password) {
     res.status(400);
     throw new Error("Please enter all the fieldsssss");
