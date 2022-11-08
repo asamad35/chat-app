@@ -18,7 +18,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const userInfo = localStorage.getItem("userInfo");
     if (userInfo) {
       navigate("/chats");
     }
@@ -26,7 +26,7 @@ const HomePage = () => {
   return (
     <Container maxW="xl" centerContent>
       <Box
-        d="flex"
+        display="flex"
         p="3"
         bg="white"
         w="100%"

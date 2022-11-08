@@ -8,6 +8,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Spinner,
   Text,
   Tooltip,
   useDisclosure,
@@ -65,6 +66,8 @@ const SideDrawer = () => {
         },
       };
 
+      console.log(config, "configconfig", user);
+
       const { data } = await axios.get(`/api/user?search=${search}`, config);
 
       setLoading(false);
@@ -89,9 +92,10 @@ const SideDrawer = () => {
         },
       };
       const { data } = await axios.post(`api/chat/`, { userId }, config);
+      if (!chats.find((c) => c?._id === data?.id)) setChats([data, ...chats]);
       setSelectedChat(data);
       setLoadingChat(false);
-      //   onClose();
+      onClose();
     } catch (error) {
       toast({
         title: "Error Fetching the chats!",
@@ -177,6 +181,7 @@ const SideDrawer = () => {
                 />
               ))
             )}
+            {loadingChat && <Spinner marginLeft="auto" display="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

@@ -93,7 +93,7 @@ exports.renameGroup = asyncHandler(async (req, res) => {
   const { chatID, chatName } = req.body;
 
   let targetChat = await Chat.findById(chatID);
-
+  console.log(targetChat, "target");
   if (targetChat.isGroupChat === false) {
     res.status(400);
     throw new Error("This is not a group chat");
