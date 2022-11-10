@@ -15,9 +15,12 @@ const ChatProvider = ({ children }) => {
     if (!userInfo) {
       navigate("/");
     }
-    console.log(userInfo, "pppppp");
     userInfo && setUser({ ...userInfo?.user, token: userInfo.token });
   }, []);
+
+  useEffect(() => {
+    console.log(selectedChat, "12345");
+  }, [selectedChat]);
 
   return (
     <ChatContext.Provider

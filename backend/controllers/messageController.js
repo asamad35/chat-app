@@ -6,7 +6,6 @@ exports.sendMessage = asyncHandler(async (req, res) => {
   const { content, chatID } = req.body;
 
   if (!content || !chatID) {
-    console.log("Invalid data passed into request");
     return res.sendStatus(400);
   }
 

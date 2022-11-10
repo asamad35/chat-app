@@ -4,9 +4,7 @@ const User = require("../models/userModel");
 
 exports.accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
-  console.log(req.body);
   if (!userId) {
-    console.log("userid not present in body", req.body);
     res.status(400);
   }
 
@@ -58,8 +56,6 @@ exports.fetchChats = asyncHandler(async (req, res) => {
     .sort({ updatedAt: -1 });
 
   res.status(200).json(allChats);
-
-  console.log(allChats);
 });
 
 exports.createGroupChat = asyncHandler(async (req, res) => {
@@ -93,7 +89,6 @@ exports.renameGroup = asyncHandler(async (req, res) => {
   const { chatID, chatName } = req.body;
 
   let targetChat = await Chat.findById(chatID);
-  console.log(targetChat, "target");
   if (targetChat.isGroupChat === false) {
     res.status(400);
     throw new Error("This is not a group chat");
