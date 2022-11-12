@@ -7,8 +7,6 @@ const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errormiddleware");
-const { Server } = require("socket.io");
-const { createServer } = require("http");
 const path = require("path");
 
 const app = express();
@@ -39,9 +37,11 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
+const PORT = process.env.PORT;
+
 const server = app.listen(
-  process.env.PORT || 5000,
-  console.log(`server is running at port ${process.env.PORT || 5000}`.yellow)
+  PORT,
+  console.log(`server is running at port ${PORT}`.yellow)
 );
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
