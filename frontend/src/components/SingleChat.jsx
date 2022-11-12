@@ -337,15 +337,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   }, [selectedChat]);
 
   useEffect(() => {
-    console.log("hiiiiiillllll");
     socket.on("message received", (newMessageRecieved) => {
-      console.log(
-        // newMessageReceived,
-        "33333333333333333"
-        // selectedChatCompare,
-        // selectedChat
-        // newMessageReceived.chat
-      );
       if (
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
