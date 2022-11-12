@@ -7,7 +7,7 @@ const {
   addtogroup,
   removefromgroup,
 } = require("../controllers/chatController");
-const { isLoggedIn } = require("../middleware/loginMiddleware");
+const { isLoggedIn } = require("../middleware/loginmiddleware");
 const router = express.Router();
 
 router.route("/").post(isLoggedIn, accessChat);

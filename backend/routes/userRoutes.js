@@ -5,7 +5,7 @@ const {
   loginUser,
   allUsers,
 } = require("../controllers/userController");
-const { isLoggedIn } = require("../middleware/loginMiddleware");
+const { isLoggedIn } = require("../middleware/loginmiddleware");
 
 router.route("/").post(registerUser).get(isLoggedIn, allUsers);
 router.route("/login").post(loginUser);

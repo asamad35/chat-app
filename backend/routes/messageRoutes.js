@@ -3,7 +3,7 @@ const {
   sendMessage,
   allMessages,
 } = require("../controllers/messageController");
-const { isLoggedIn } = require("../middleware/loginMiddleware");
+const { isLoggedIn } = require("../middleware/loginmiddleware");
 const router = express.Router();
 
 router.route("/").post(isLoggedIn, sendMessage);
