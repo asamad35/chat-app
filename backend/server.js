@@ -6,7 +6,7 @@ require("colors");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
-const { notFound, errorHandler } = require("./middleware/errorMiddleWare");
+const { notFound, errorHandler } = require("./middleware/errormiddleware");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
 const path = require("path");
