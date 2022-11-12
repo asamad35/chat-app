@@ -40,8 +40,8 @@ app.use(notFound);
 app.use(errorHandler);
 
 const server = app.listen(
-  process.env.port || 5000,
-  console.log(`server is running at port ${process.env.port || 5000}`.yellow)
+  process.env.PORT || 5000,
+  console.log(`server is running at port ${process.env.PORT || 5000}`.yellow)
 );
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
