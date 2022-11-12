@@ -11,6 +11,7 @@ import {
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ChatState } from "../../context/ChatProvider";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState(123456);
   const [pic, setPic] = useState();
   const [loading, setLoading] = useState(false);
+  const { setUser } = ChatState();
   const toast = useToast();
 
   const postDetails = (pic) => {
@@ -116,6 +118,7 @@ const SignUp = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
+      setUser({ ...data?.user, token: data.token });
       navigate("/chats");
     } catch (error) {
       toast({

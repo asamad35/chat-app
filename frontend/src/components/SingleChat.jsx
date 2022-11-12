@@ -20,7 +20,7 @@ import "./style.css";
 import animationData from "../typing.json";
 import Lottie from "react-lottie";
 
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://talk-aa-tive.herokuapp.com/";
 let socket, selectedChatCompare;
 
 // const SingleChat = ({ fetchAgain, setFetchAgain }) => {
